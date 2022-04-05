@@ -27,24 +27,10 @@ create table if not exists messages
     room_id     int references rooms (id)
 );
 
-
-
-/*create table if not exists rooms_messages
-(
-    rooms_id    int references rooms (id),
-    messages_id int references messages (id)
-);*/
-
 create table if not exists rooms_persons
 (
     room_id   int references rooms (id),
     person_id int references persons (id)
 );
-
-/*create table if not exists persons_messages
-(
-    person_id  int references persons (id),
-    messages_id int references messages (id)
-);*/
 
 
