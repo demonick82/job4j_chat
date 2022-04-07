@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.job4j.chat.model.Room;
 import ru.job4j.chat.repository.RoomRepository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class RoomService {
@@ -17,7 +17,7 @@ public class RoomService {
         this.repository = repository;
     }
 
-    public List<Room> findAllRooms() {
+    public Set<Room> findAllRooms() {
         return repository.findAll();
     }
 

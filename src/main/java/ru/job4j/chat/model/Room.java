@@ -2,9 +2,7 @@ package ru.job4j.chat.model;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "rooms")
@@ -25,7 +23,7 @@ public class Room {
     @JoinTable(name = "rooms_persons",
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id"))
-    private List<Person> persons = new ArrayList<>();
+    private Set<Person> persons = new HashSet<>();
 
     public static Room of(String name) {
         Room room = new Room();
@@ -65,11 +63,11 @@ public class Room {
         this.messages = messages;
     }
 
-    public List<Person> getPersons() {
+    public Set<Person> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
+    public void setPersons(Set<Person> persons) {
         this.persons = persons;
     }
 

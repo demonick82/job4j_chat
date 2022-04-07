@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.chat.model.Room;
 import ru.job4j.chat.serviсe.RoomService;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/room")
@@ -18,7 +18,7 @@ public class RoomControl {
     }
 
     @GetMapping("/")
-    public List<Room> findAllRooms() {
+    public Set<Room> findAllRooms() {
         return service.findAllRooms();
     }
 
