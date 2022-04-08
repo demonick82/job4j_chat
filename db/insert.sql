@@ -9,9 +9,9 @@ insert into authorities (authority)
 values ('ROLE_ADMIN');
 
 insert into persons (nickname, login, password, authority_id)
-values ('user1', 'user@mail.ru', '123', 2);
+values ('user1', 'user@mail.ru', '$2a$10$NDdqOISl8ahk0EklWm4PN.6uLzviTFH452lDvUH/bpfXaXyAr7OqG', 2);
 insert into persons (nickname, login, password, authority_id)
-values ('user2', 'user2@mail.ru', '123', 2);
+values ('user2', 'user2@mail.ru', '$2a$10$NDdqOISl8ahk0EklWm4PN.6uLzviTFH452lDvUH/bpfXaXyAr7OqG', 2);
 
 insert into messages (description, person_id, room_id)
 values ('message 1', 1, 1);

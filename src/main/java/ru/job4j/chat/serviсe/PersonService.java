@@ -2,15 +2,20 @@ package ru.job4j.chat.serviсe;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.job4j.chat.model.Person;
 import ru.job4j.chat.repository.PersonRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonService {
+public class PersonService implements UserDetailsService {
 
     private final PersonRepository repository;
 
@@ -46,5 +51,14 @@ public class PersonService {
         person.setId(id);
         repository.delete(person);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Person user = repository.findByLogin(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new User(user.getLogin(), user.getPassword(), Collections.emptyList());
     }
 }
