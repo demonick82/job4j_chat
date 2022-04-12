@@ -3,6 +3,7 @@ package ru.job4j.chat.control;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.chat.exceptionHandling.IllegalPasswordException;
 import ru.job4j.chat.model.Person;
 import ru.job4j.chat.serviсe.PersonService;
 
@@ -27,7 +28,11 @@ public class PersonControl {
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable int id) {
-        return service.findById(id);
+        ResponseEntity<Person> person = service.findById(id);
+        if (person.getStatusCodeValue() == 404) {
+            throw new NullPointerException("Person with it id=" + id + " not found in database");
+        }
+        return person;
     }
 
     @PutMapping("/")
@@ -42,7 +47,9 @@ public class PersonControl {
 
     @PostMapping("/sign-up")
     public void signUp(@RequestBody Person person) {
-        System.out.println("person=" + person);
+        if (person.getPassword().length() < 7) {
+            throw new IllegalPasswordException("password must be min 6 characters");
+        }
         person.setPassword(encoder.encode(person.getPassword()));
         service.create(person);
     }

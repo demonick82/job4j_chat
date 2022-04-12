@@ -24,7 +24,11 @@ public class MessageControl {
 
     @GetMapping("/{id}")
     public ResponseEntity<Message> findById(@PathVariable int id) {
-        return service.findById(id);
+        ResponseEntity<Message> message = service.findById(id);
+        if (message.getStatusCodeValue() == 404) {
+            throw new NullPointerException("Message with it id=" + id + " not found in database");
+        }
+        return message;
     }
 
     @PostMapping("/")

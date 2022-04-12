@@ -24,7 +24,11 @@ public class RoomControl {
 
     @GetMapping("/{id}")
     public ResponseEntity<Room> findById(@PathVariable int id) {
-        return service.findById(id);
+        ResponseEntity<Room> room = service.findById(id);
+        if (room.getStatusCodeValue() == 404) {
+            throw new NullPointerException("Room with it id=" + id + " not found in database");
+        }
+        return room;
     }
 
     @PostMapping("/")

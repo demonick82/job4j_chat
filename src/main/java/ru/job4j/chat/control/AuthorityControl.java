@@ -24,7 +24,11 @@ public class AuthorityControl {
 
     @GetMapping("/{id}")
     public ResponseEntity<Authority> findById(@PathVariable int id) {
-        return service.findById(id);
+        ResponseEntity<Authority> authority = service.findById(id);
+        if (authority.getStatusCodeValue() == 404) {
+            throw new NullPointerException("Role with it id=" + id + " not found in database");
+        }
+        return authority;
     }
 
     @PostMapping("/")
