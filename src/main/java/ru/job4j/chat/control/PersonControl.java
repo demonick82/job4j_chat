@@ -22,7 +22,7 @@ public class PersonControl {
     }
 
     @GetMapping("/")
-    public List<Person> findAllAuth() {
+    public ResponseEntity<List<Person>> findAllPersons() {
         return service.findAllPersons();
     }
 

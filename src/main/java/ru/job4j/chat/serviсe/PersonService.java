@@ -23,8 +23,10 @@ public class PersonService implements UserDetailsService {
         this.repository = repository;
     }
 
-    public List<Person> findAllPersons() {
-        return repository.findAll();
+    public ResponseEntity<List<Person>> findAllPersons() {
+        List<Person> persons = repository.findAll();
+        return new ResponseEntity<>(persons,
+                persons.size() != 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<Person> findById(int id) {
