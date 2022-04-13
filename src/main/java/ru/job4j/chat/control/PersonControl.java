@@ -47,7 +47,7 @@ public class PersonControl {
 
     @PostMapping("/sign-up")
     public void signUp(@RequestBody Person person) {
-        if (person.getPassword().length() < 7) {
+        if (person.getPassword().length() < 6) {
             throw new IllegalPasswordException("password must be min 6 characters");
         }
         person.setPassword(encoder.encode(person.getPassword()));
