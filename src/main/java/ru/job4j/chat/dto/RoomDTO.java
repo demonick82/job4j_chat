@@ -1,10 +1,18 @@
 package ru.job4j.chat.dto;
 
+import ru.job4j.chat.exceptionHandling.Operation;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class RoomDTO {
 
+    @Min(value = 1, message = "id должно быть больше единицы",
+            groups = {Operation.OnUpdate.class, Operation.OnDelete.class})
     private int id;
+
+    @NotBlank(message = "Поле не должно быть пустым")
     private String name;
 
 

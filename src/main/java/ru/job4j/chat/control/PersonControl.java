@@ -2,12 +2,15 @@ package ru.job4j.chat.control;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.chat.dto.PersonDTO;
 import ru.job4j.chat.exceptionHandling.IllegalPasswordException;
+import ru.job4j.chat.exceptionHandling.Operation;
 import ru.job4j.chat.model.Person;
 import ru.job4j.chat.serviсe.PersonService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -37,7 +40,8 @@ public class PersonControl {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Void> update(@Valid @RequestBody Person person) {
         return service.update(person);
     }
 
@@ -47,7 +51,8 @@ public class PersonControl {
     }
 
     @PostMapping("/sign-up")
-    public void signUp(@RequestBody Person person) {
+    @Validated(Operation.OnCreate.class)
+    public void signUp(@Valid @RequestBody Person person) {
         if (person.getPassword().length() < 6) {
             throw new IllegalPasswordException("password must be min 6 characters");
         }
@@ -56,8 +61,8 @@ public class PersonControl {
     }
 
     @PatchMapping("/")
-    public ResponseEntity<Person> patch(@RequestBody PersonDTO personDTO) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Person> patch(@Valid @RequestBody PersonDTO personDTO) {
         return service.patch(personDTO);
     }
-
 }

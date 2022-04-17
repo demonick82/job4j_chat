@@ -1,11 +1,14 @@
 package ru.job4j.chat.control;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.chat.dto.RoomDTO;
+import ru.job4j.chat.exceptionHandling.Operation;
 import ru.job4j.chat.model.Room;
 import ru.job4j.chat.serviсe.RoomService;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -33,12 +36,14 @@ public class RoomControl {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Room> create(@RequestBody Room room) {
+    @Validated(Operation.OnCreate.class)
+    public ResponseEntity<Room> create(@Valid @RequestBody Room room) {
         return service.create(room);
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Room room) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Void> update(@Valid @RequestBody Room room) {
         return service.update(room);
     }
 
@@ -48,7 +53,8 @@ public class RoomControl {
     }
 
     @PatchMapping("/")
-    public ResponseEntity<Room> patch(@RequestBody RoomDTO roomDTO) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Room> patch(@Valid @RequestBody RoomDTO roomDTO) {
         return service.patch(roomDTO);
     }
 }

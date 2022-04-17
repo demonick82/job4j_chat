@@ -1,6 +1,10 @@
 package ru.job4j.chat.model;
 
+import ru.job4j.chat.exceptionHandling.Operation;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -10,8 +14,12 @@ public class Authority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Min(value = 1, message = "id должно быть больше единицы",
+            groups = {Operation.OnUpdate.class, Operation.OnDelete.class})
     private int id;
 
+    @NotBlank(message = "Поле role не должно быть пустым")
     private String authority;
 
     public int getId() {

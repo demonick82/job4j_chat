@@ -1,10 +1,13 @@
 package ru.job4j.chat.control;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.chat.exceptionHandling.Operation;
 import ru.job4j.chat.model.Authority;
 import ru.job4j.chat.serviсe.AuthorityService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,12 +35,14 @@ public class AuthorityControl {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Authority> create(@RequestBody Authority auth) {
+    @Validated(Operation.OnCreate.class)
+    public ResponseEntity<Authority> create(@Valid @RequestBody Authority auth) {
         return service.create(auth);
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Authority auth) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Void> update(@Valid @RequestBody Authority auth) {
         return service.update(auth);
     }
 
@@ -45,5 +50,4 @@ public class AuthorityControl {
     public ResponseEntity<Void> delete(@PathVariable int id) {
         return service.delete(id);
     }
-
 }

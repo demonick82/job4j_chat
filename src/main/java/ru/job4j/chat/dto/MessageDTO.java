@@ -1,13 +1,24 @@
 package ru.job4j.chat.dto;
 
 
+import ru.job4j.chat.exceptionHandling.Operation;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class MessageDTO {
+
+    @Min(value = 1, message = "id должно быть больше единицы",
+            groups = {Operation.OnUpdate.class, Operation.OnDelete.class})
     private int id;
+
+    @NotBlank(message = "Поле не должно быть пустым")
     private String description;
     private Timestamp created;
+
+    @Min(value = 1, message = "id должно быть больше единицы")
     private int personId;
 
     public static MessageDTO of(String description) {

@@ -1,6 +1,10 @@
 package ru.job4j.chat.model;
 
+import ru.job4j.chat.exceptionHandling.Operation;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -10,10 +14,19 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Min(value = 1, message = "id должно быть больше единицы",
+            groups = {Operation.OnUpdate.class, Operation.OnDelete.class})
     private int id;
-    @Column (name = "nickname")
+
+    @Column(name = "nickname")
+    @NotBlank(message = "Поле не должно быть пустым")
     private String nickName;
+
+    @NotBlank(message = "Поле не должно быть пустым")
     private String login;
+
+    @Min(value = 6, message = "Пароль должен быть больше 6 символов")
     private String password;
 
     @ManyToOne

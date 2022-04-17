@@ -1,11 +1,14 @@
 package ru.job4j.chat.control;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.chat.dto.MessageDTO;
+import ru.job4j.chat.exceptionHandling.Operation;
 import ru.job4j.chat.model.Message;
 import ru.job4j.chat.serviсe.MessageService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,12 +36,14 @@ public class MessageControl {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Message> create(@RequestBody Message message) {
+    @Validated(Operation.OnCreate.class)
+    public ResponseEntity<Message> create(@Valid @RequestBody Message message) {
         return service.create(message);
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Message message) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Void> update(@Valid @RequestBody Message message) {
         return service.update(message);
     }
 
@@ -48,7 +53,8 @@ public class MessageControl {
     }
 
     @PatchMapping("/")
-    public ResponseEntity<Message> patch(@RequestBody MessageDTO messageDTO) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Message> patch(@Valid @RequestBody MessageDTO messageDTO) {
         return service.patch(messageDTO);
     }
 }
