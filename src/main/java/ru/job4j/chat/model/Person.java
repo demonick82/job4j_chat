@@ -2,6 +2,7 @@ package ru.job4j.chat.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "persons")
@@ -84,5 +85,16 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("nickName='" + nickName + "'")
+                .add("login='" + login + "'")
+                .add("password='" + password + "'")
+                .add("authority=" + authority)
+                .toString();
     }
 }

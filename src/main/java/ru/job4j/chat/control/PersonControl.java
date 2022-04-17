@@ -3,6 +3,7 @@ package ru.job4j.chat.control;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.chat.dto.PersonDTO;
 import ru.job4j.chat.exceptionHandling.IllegalPasswordException;
 import ru.job4j.chat.model.Person;
 import ru.job4j.chat.serviсe.PersonService;
@@ -53,4 +54,10 @@ public class PersonControl {
         person.setPassword(encoder.encode(person.getPassword()));
         service.create(person);
     }
+
+    @PatchMapping("/")
+    public ResponseEntity<Person> patch(@RequestBody PersonDTO personDTO) {
+        return service.patch(personDTO);
+    }
+
 }

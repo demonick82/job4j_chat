@@ -2,6 +2,7 @@ package ru.job4j.chat.control;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.chat.dto.RoomDTO;
 import ru.job4j.chat.model.Room;
 import ru.job4j.chat.serviсe.RoomService;
 
@@ -44,5 +45,10 @@ public class RoomControl {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         return service.delete(id);
+    }
+
+    @PatchMapping("/")
+    public ResponseEntity<Room> patch(@RequestBody RoomDTO roomDTO) {
+        return service.patch(roomDTO);
     }
 }

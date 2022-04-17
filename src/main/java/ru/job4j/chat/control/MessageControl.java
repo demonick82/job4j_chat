@@ -2,6 +2,7 @@ package ru.job4j.chat.control;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.chat.dto.MessageDTO;
 import ru.job4j.chat.model.Message;
 import ru.job4j.chat.serviсe.MessageService;
 
@@ -44,5 +45,10 @@ public class MessageControl {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         return service.delete(id);
+    }
+
+    @PatchMapping("/")
+    public ResponseEntity<Message> patch(@RequestBody MessageDTO messageDTO) {
+        return service.patch(messageDTO);
     }
 }

@@ -3,7 +3,9 @@ package ru.job4j.chat.serviсe;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.job4j.chat.dto.MessageDTO;
 import ru.job4j.chat.model.Message;
+import ru.job4j.chat.model.Person;
 import ru.job4j.chat.repository.MessageRepository;
 
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class MessageService {
 
     private final MessageRepository repository;
+    private final PersonService personService;
 
-    public MessageService(MessageRepository repository) {
+    public MessageService(MessageRepository repository, PersonService personService) {
         this.repository = repository;
+        this.personService = personService;
     }
 
     public List<Message> findAllMessages() {
@@ -46,5 +50,15 @@ public class MessageService {
         message.setId(id);
         repository.delete(message);
         return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<Message> patch(MessageDTO messageDTO) {
+        Message message = Message.of(messageDTO.getDescription());
+        Person person = personService.findById(messageDTO.getPersonId()).getBody();
+        message.setId(messageDTO.getId());
+        message.setPerson(person);
+        return new ResponseEntity<>(
+                this.repository.save(message),
+                HttpStatus.CREATED);
     }
 }

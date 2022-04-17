@@ -3,6 +3,7 @@ package ru.job4j.chat.serviсe;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.job4j.chat.dto.RoomDTO;
 import ru.job4j.chat.model.Room;
 import ru.job4j.chat.repository.RoomRepository;
 
@@ -47,4 +48,11 @@ public class RoomService {
         return ResponseEntity.ok().build();
     }
 
+    public ResponseEntity<Room> patch(RoomDTO roomDTO) {
+        Room room = Room.of(roomDTO.getName());
+        room.setId(roomDTO.getId());
+        return new ResponseEntity<>(
+                this.repository.save(room),
+                HttpStatus.CREATED);
+    }
 }

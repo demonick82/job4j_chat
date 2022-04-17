@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.job4j.chat.dto.PersonDTO;
+import ru.job4j.chat.model.Authority;
 import ru.job4j.chat.model.Person;
 import ru.job4j.chat.repository.PersonRepository;
 
@@ -18,9 +20,11 @@ import java.util.Optional;
 public class PersonService implements UserDetailsService {
 
     private final PersonRepository repository;
+    private final AuthorityService authorityService;
 
-    public PersonService(PersonRepository repository) {
+    public PersonService(PersonRepository repository, AuthorityService authorityService) {
         this.repository = repository;
+        this.authorityService = authorityService;
     }
 
     public ResponseEntity<List<Person>> findAllPersons() {
@@ -62,5 +66,15 @@ public class PersonService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new User(user.getLogin(), user.getPassword(), Collections.emptyList());
+    }
+
+    public ResponseEntity<Person> patch(PersonDTO personDTO) {
+        Person person = Person.of(personDTO.getNickName(), personDTO.getLogin(), personDTO.getPassword());
+        Authority auth = authorityService.findById(personDTO.getAuthorityId()).getBody();
+        person.setId(personDTO.getId());
+        person.setAuthority(auth);
+        return new ResponseEntity<>(
+                this.repository.save(person),
+                HttpStatus.CREATED);
     }
 }
